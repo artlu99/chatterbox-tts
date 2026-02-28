@@ -21,7 +21,6 @@ resembleai-runpod/
 ├── src/
 │   ├── main.ts
 │   ├── api.ts
-│   ├── db.ts
 │   └── ffmpeg.ts
 ├── out/
 ├── package.json
@@ -38,6 +37,7 @@ resembleai-runpod/
 | Env      | `VOICE`                      | Default voice (e.g. `abigail`)                         |
 | CLI      | `--voice <id>`               | Override voice                                         |
 | CLI      | `-o, --out <dir>`            | Override output dir (default: `resembleai-runpod/out`) |
+| Env      | `MAX_STDIN_BYTES`            | Max stdin bytes (default: 1MB)                         |
 | Implicit | CWD                          | SQLite path: `./tts-accounting.db`                     |
 
 ---
@@ -45,33 +45,34 @@ resembleai-runpod/
 ## Implementation TODOs
 
 ### Project Setup
-- [ ] Create `resembleai-runpod/` directory structure
-- [ ] Create `package.json` with bun configuration
-- [ ] Create `tsconfig.json`
-- [ ] Create `out/` directory (add to .gitignore)
+- [x] Create `resembleai-runpod/` directory structure
+- [x] Create `package.json` with bun configuration
+- [x] Create `tsconfig.json`
+- [x] Create `out/` directory (add to .gitignore)
 
 ### main.ts - Entry Point
-- [ ] Parse CLI args (`--voice`, `-o/--out`)
-- [ ] Read STDIN until EOF
-- [ ] Truncate input text to 2000 chars (no logging)
-- [ ] Resolve voice priority: CLI arg > env `VOICE` > default `abigail`
-- [ ] Call API module with retry logic
-- [ ] Insert row into SQLite via db module
-- [ ] Download WAV, run ffmpeg, write OGG to output dir
-- [ ] Exit 0 on success, exit 1 on failure
+- [x] Parse CLI args (`--voice`, `-o/--out`)
+- [x] Read STDIN until EOF
+- [x] Validate stdin byte length (max 1MB default)
+- [x] Truncate input text to 2000 chars (no logging)
+- [x] Resolve voice priority: CLI arg > env `VOICE` > default `abigail`
+- [x] Call API module with retry logic
+- [x] Insert row into SQLite via db module
+- [x] Download WAV, run ffmpeg, write OGG to output dir
+- [x] Exit 0 on success, exit 1 on failure
 
 ### api.ts - Runpod API Client
-- [ ] Hardcode endpoint: `https://api.runpod.ai/v2/chatterbox-turbo/run`
-- [ ] Build request: `{ "input": { "prompt": "<text>", "voice": "<voice>", "format": "wav" } }`
-- [ ] Use `RUNPOD_API_KEY` or `BEARER` env var for auth header
-- [ ] Parse response: `output.audio_url`, `output.cost`, `status`, `id`, `executionTime`
-- [ ] Implement retry: 3 attempts with exponential backoff (1s, 2s, 4s)
-- [ ] Treat non-COMPLETED status as failure → retry
-- [ ] Exit 1 after all retries exhausted
+- [x] Hardcode endpoint: `https://api.runpod.ai/v2/chatterbox-turbo/run`
+- [x] Build request: `{ "input": { "prompt": "<text>", "voice": "<voice>", "format": "wav" } }`
+- [x] Use `RUNPOD_API_KEY` or `BEARER` env var for auth header
+- [x] Parse response: `output.audio_url`, `output.cost`, `status`, `id`, `executionTime`
+- [x] Implement retry: 3 attempts with exponential backoff (2s, 4s, 8s)
+- [x] Treat non-COMPLETED status as failure → retry
+- [x] Exit 1 after all retries exhausted
 
 ### db.ts - SQLite Integration
-- [ ] Create `tts-accounting.db` in CWD using `bun:sqlite`
-- [ ] Create table schema:
+- [x] Create `tts-accounting.db` in CWD using `bun:sqlite`
+- [x] Create table schema:
   ```sql
   CREATE TABLE IF NOT EXISTS tts_calls (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -86,23 +87,24 @@ resembleai-runpod/
   CREATE INDEX idx_ts ON tts_calls(ts);
   CREATE INDEX idx_voice ON tts_calls(voice);
   ```
-- [ ] Implement insert function with all fields
+- [x] Implement insert function with all fields
 
 ### ffmpeg.ts - Audio Conversion
-- [ ] Import `$` from "bun" for shell commands
-- [ ] Define constants: `MAX_RETRIES = 3`, `TIMEOUT_MS = 30000`
-- [ ] Implement `convertWavToOgg(url: string, outputPath: string): Promise<void>`
-- [ ] Add JSON logging helper: `{ level, time, msg, ...data }`
-- [ ] Fetch WAV from URL with `AbortSignal.timeout(30000)`
-- [ ] Pipe response body directly to ffmpeg stdin using Bun's `$` template:
+- [x] Import `$` from "bun" for shell commands
+- [x] Define constants: `MAX_RETRIES = 3`, `TIMEOUT_MS = 30000`
+- [x] Implement `convertWavToOgg(url: string, outputPath: string): Promise<void>`
+- [x] Add JSON logging helper: `{ level, time, msg, ...data }`
+- [x] Fetch WAV from URL with `AbortSignal.timeout(30000)`
+- [x] Pipe response body directly to ffmpeg stdin using Bun's `$` template:
   ```ts
   await $`ffmpeg -y -i - -c:a libvorbis -q:a 4 ${outputPath}`
     .stdin(response.body!)
     .quiet();
   ```
-- [ ] Retry on failure: 3 attempts with exponential backoff (2s, 4s, 8s)
-- [ ] Exit 1 after all retries exhausted
-- [ ] Log each attempt and final success/failure
+- [x] Retry on failure: 3 attempts with exponential backoff (2s, 4s, 8s)
+- [x] Exit 1 after all retries exhausted
+- [x] Log each attempt and final success/failure
+- [x] Extract filename from URL, handling any extension (mp3, m4a, flac, wav, etc.)
 
 ---
 
@@ -132,4 +134,6 @@ echo "What did you have for dinner today?" | RUNPOD_API_KEY=xxx bun run resemble
 | Temp file location | Stream directly to ffmpeg stdin (no temp file) |
 | Audio codec | `libvorbis` with quality 4 |
 | Fetch timeout | 30000ms |
-| Retry backoff | Exponential: 2s, 4s, 8s (base 2^attempt) |
+| Stdin byte limit | 1MB default (configurable via `MAX_STDIN_BYTES`) |
+| Filename extension handling | Extract any extension, replace with .ogg |
+| Retry backoff | Exponential: 2s, 4s, 8s (base 2^attempt, starting from attempt 1) |
