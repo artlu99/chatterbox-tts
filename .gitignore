@@ -4,6 +4,7 @@ bun.lock
 
 # output
 out
+*.db3
 
 # dotenv environment variable files
 .env

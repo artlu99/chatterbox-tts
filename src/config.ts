@@ -18,7 +18,7 @@ export const MAX_STDIN_BYTES = parseInt(process.env.MAX_STDIN_BYTES ?? "1048576"
 
 // Filesystem Configuration
 export const DEFAULT_OUTPUT_DIR = process.env.OUTPUT_DIR ?? "out";
-export const DATABASE_PATH = process.env.DB_PATH ?? "./tts-accounting.db";
+export const DATABASE_PATH = process.env.DB_PATH ?? "./tts-accounting.db3";
 
 // Retry backoff configuration
 // Exponential backoff: base_ms * 2^attempt
