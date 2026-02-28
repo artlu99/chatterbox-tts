@@ -1,6 +1,6 @@
 // API Configuration
-export const API_ENDPOINT = process.env.RUNPOD_ENDPOINT ?? "https://api.runpod.ai/v2/chatterbox-turbo/run";
-export const API_TIMEOUT_MS = parseInt(process.env.API_TIMEOUT_MS ?? "30000", 10);
+export const API_ENDPOINT = process.env.RUNPOD_ENDPOINT ?? "https://api.runpod.ai/v2/chatterbox-turbo/runsync?wait=60000";
+export const API_TIMEOUT_MS = parseInt(process.env.API_TIMEOUT_MS ?? "65000", 10);
 export const API_MAX_RETRIES = parseInt(process.env.API_MAX_RETRIES ?? "3", 10);
 
 // FFmpeg Configuration

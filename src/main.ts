@@ -153,6 +153,8 @@ async function main() {
     cost: response.output.cost,
     executionTimeMs: response.executionTime,
   });
+
+  process.exit(0);
 }
 
 // Global error handler

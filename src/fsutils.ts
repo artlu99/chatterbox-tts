@@ -43,12 +43,15 @@ export async function validateOutputDirectory(dirPath: string): Promise<void> {
 }
 
 /**
- * Check if a directory exists
+ * Check if a directory exists.
+ * Note: Bun.file().exists() returns false for directories (only true for files),
+ * so we use fs.stat instead.
  */
 async function checkDirectoryExists(dirPath: string): Promise<boolean> {
   try {
-    const stat = await Bun.file(dirPath).exists();
-    return stat;
+    const { stat } = await import("node:fs/promises");
+    const st = await stat(dirPath);
+    return st.isDirectory();
   } catch {
     return false;
   }

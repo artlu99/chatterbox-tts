@@ -139,8 +139,16 @@ export async function callTtsApi(text: string, voice: string): Promise<ApiRespon
       }
 
       // Validate response structure
-      if (!validateApiResponse(data)) {
-        throw new ApiResponseValidationError("API response validation failed", []);
+      try {
+        validateApiResponse(data);
+      } catch (err) {
+        if (err instanceof ApiResponseValidationError) {
+          logger.error("API response validation failed", {
+            validationErrors: err.validationErrors,
+            rawResponse: JSON.stringify(data).slice(0, 500),
+          });
+        }
+        throw err;
       }
 
       // Now safe to use as ApiResponse
@@ -161,9 +169,13 @@ export async function callTtsApi(text: string, voice: string): Promise<ApiRespon
       return validatedData;
 
     } catch (err) {
-      // Log the error
+      // Log the error (include validation details if available)
       const errorMessage = String(err);
-      logger.error("API call failed", { attempt, error: errorMessage });
+      const logData: Record<string, unknown> = { attempt, error: errorMessage };
+      if (err instanceof ApiResponseValidationError && err.validationErrors.length > 0) {
+        logData.validationErrors = err.validationErrors;
+      }
+      logger.error("API call failed", logData);
 
       // If this is the last attempt, re-throw the error
       if (attempt === API_MAX_RETRIES) {
