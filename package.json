@@ -1,12 +1,15 @@
 {
-  "name": "chatterbox-tts",
-  "module": "index.ts",
-  "type": "module",
-  "private": true,
-  "devDependencies": {
-    "@types/bun": "latest"
-  },
-  "peerDependencies": {
-    "typescript": "^5"
-  }
+	"name": "chatterbox-tts",
+	"module": "src/main.ts",
+	"type": "module",
+	"private": true,
+	"scripts": {
+		"typecheck": "tsc --noEmit",
+		"build": "bun build src/main.ts --compile --outfile=out/chatterbox-tts"
+	},
+	"dependencies": {
+		"@types/bun": "latest",
+		"tiny-invariant": "^1.3.3",
+		"typescript": "^5"
+	}
 }
