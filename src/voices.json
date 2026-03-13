@@ -1,0 +1,133 @@
+{
+    "voices": [
+        {
+            "name": "Aaron",
+            "category": "Professional",
+            "gender": "male",
+            "description": "Clear and professional male voice with confident delivery. Great for corporate content and presentations."
+        },
+        {
+            "name": "Abigail",
+            "category": "Warm",
+            "gender": "female",
+            "description": "Warm and approachable female voice with natural tone. Perfect for narration and conversational content."
+        },
+        {
+            "name": "Anaya",
+            "category": "Expressive",
+            "gender": "female",
+            "description": "Dynamic and expressive female voice with rich emotional range. Ideal for storytelling and creative content."
+        },
+        {
+            "name": "Andy",
+            "category": "Friendly",
+            "gender": "male",
+            "description": "Friendly and versatile male voice. The default Chatterbox voice, great for general-purpose TTS."
+        },
+        {
+            "name": "Archer",
+            "category": "Authoritative",
+            "gender": "male",
+            "description": "Strong and authoritative male voice with depth. Suited for documentaries and serious narration."
+        },
+        {
+            "name": "Brian",
+            "category": "Casual",
+            "gender": "male",
+            "description": "Laid-back and casual male voice with easygoing delivery. Works well for podcasts and informal content."
+        },
+        {
+            "name": "Chloe",
+            "category": "Bright",
+            "gender": "female",
+            "description": "Bright and energetic female voice with youthful enthusiasm. Great for social media and upbeat content."
+        },
+        {
+            "name": "Dylan",
+            "category": "Narrative",
+            "gender": "male",
+            "description": "Smooth narrative male voice with engaging delivery. Excellent for audiobooks and long-form content."
+        },
+        {
+            "name": "Emmanuel",
+            "category": "Deep",
+            "gender": "male",
+            "description": "Deep and resonant male voice with gravitas. Perfect for trailers, promos, and dramatic content."
+        },
+        {
+            "name": "Ethan",
+            "category": "Conversational",
+            "gender": "male",
+            "description": "Natural and conversational male voice. Ideal for tutorials, explainers, and casual narration."
+        },
+        {
+            "name": "Evelyn",
+            "category": "Elegant",
+            "gender": "female",
+            "description": "Sophisticated and elegant female voice with refined delivery. Great for luxury brands and premium content."
+        },
+        {
+            "name": "Gavin",
+            "category": "Energetic",
+            "gender": "male",
+            "description": "Energetic and dynamic male voice with enthusiasm. Perfect for gaming, sports, and high-energy content."
+        },
+        {
+            "name": "Gordon",
+            "category": "Mature",
+            "gender": "male",
+            "description": "Mature and seasoned male voice with wisdom. Suited for documentaries, history, and educational content."
+        },
+        {
+            "name": "Ivan",
+            "category": "Commanding",
+            "gender": "male",
+            "description": "Commanding male voice with presence and power. Ideal for announcements and authoritative content."
+        },
+        {
+            "name": "Laura",
+            "category": "Soothing",
+            "gender": "female",
+            "description": "Soothing and calming female voice with gentle delivery. Perfect for meditation, wellness, and ASMR."
+        },
+        {
+            "name": "Lucy",
+            "category": "Lively",
+            "gender": "female",
+            "description": "Lively and charismatic female voice with personality. Great for entertainment, ads, and engaging content."
+        },
+        {
+            "name": "Madison",
+            "category": "Clear",
+            "gender": "female",
+            "description": "Clear and articulate female voice with precision. Ideal for educational content and instructions."
+        },
+        {
+            "name": "Marisol",
+            "category": "Vibrant",
+            "gender": "female",
+            "description": "Vibrant and passionate female voice with energy. Works well for creative projects and storytelling."
+        },
+        {
+            "name": "Meera",
+            "category": "Thoughtful",
+            "gender": "female",
+            "description": "Thoughtful and measured female voice with intelligence. Perfect for tech content, science, and analysis."
+        },
+        {
+            "name": "Walter",
+            "category": "Classic",
+            "gender": "male",
+            "description": "Classic announcer-style male voice with polish. Ideal for commercials, intros, and professional voiceovers."
+        }
+    ],
+    "metadata": {
+        "source": "https://texttolab.com/chatterbox",
+        "total_voices": 20,
+        "extracted_date": "2026-03-02",
+        "gender_distribution": {
+            "male": 11,
+            "female": 9
+        }
+    }
+}
